@@ -100,3 +100,28 @@ def create_alphabet(base_n: int) -> list[int]:
         raise ValueError("B must be a positive integer.")
 
     return list(range(base_n))
+
+def encode_string(
+    text: str,
+    alphabet: dict[str, int]
+) -> list[int]:
+    '''
+    Encodes a string into a sequence of integer symbol IDs based on the provided alphabet.
+
+    Args:
+        text: The input string to encode.
+        alphabet: A list of unique symbols defining the encoding alphabet.
+
+    Returns:
+        A list of integers representing the positions of the input symbols in the alphabet.
+    '''
+
+    resulting_text = []
+
+    for char in text:
+        symbol_id = alphabet.get(char)
+        if symbol_id is None:
+            raise ValueError(f"Character '{char}' is not in the alphabet.")
+        resulting_text.append(symbol_id)
+
+    return resulting_text
