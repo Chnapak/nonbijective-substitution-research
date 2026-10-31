@@ -1,5 +1,4 @@
 import random
-from collections import Counter
 
 def make_mapping(
     alphabet_size: int, 
@@ -18,8 +17,8 @@ def make_mapping(
         A dictionary mapping each source symbol ID to an observed symbol ID.
     '''
 
-    if type(alphabet_size) is not int or alphabet_size < 1:
-        raise ValueError("Alphabet size must be a positive integer.")
+    if type(alphabet_size) is not int or alphabet_size < 2:
+        raise ValueError("Alphabet size must be a positive integer bigger than 1")
 
     if any(type(collision) is not int for collision in additional_collisions):
         raise TypeError("List provide contains a non integer datatype.")
@@ -125,3 +124,28 @@ def encode_string(
         resulting_text.append(symbol_id)
 
     return resulting_text
+
+def apply_mapping(
+    sequence: list[int],
+    mapping: dict[int, int]
+) -> list[int]:
+    '''
+    Applies a many-to-one substitution mapping to a sequence of integer symbol IDs.
+
+    Args:
+        sequence: The original sequence of source symbol IDs.
+        mapping: A dictionary mapping each source symbol ID to an observed symbol ID.
+
+    Returns:
+        A new sequence containing the mapped symbol IDs, preserving the original order.
+    '''
+
+    encoded_sequence = []
+
+    for char_id in sequence:
+        encoded_id = mapping.get(char_id)
+        if encoded_id is None:
+            raise KeyError(f"No mapping defined for symbol ID {char_id}.")
+        encoded_sequence.append((encoded_id))
+
+    return encoded_sequence
