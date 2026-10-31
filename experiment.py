@@ -32,7 +32,7 @@ def make_mapping(
 
     collision_source_amount = len(additional_collisions)
 
-    source_ids = list(range(alphabet_size))
+    source_ids = create_alphabet(alphabet_size)
 
     # Letters that will be collided with.
     collision_roots = random_generator.sample(
@@ -83,3 +83,20 @@ def make_mapping(
         mapping[source] = observed
 
     return mapping
+
+def create_alphabet(base_n: int) -> list[int]:
+    '''
+    Changes the size of the symbol alphabet used in the experiment.
+
+    Args:
+        base_n: The desired alphabet size (base).
+
+    Returns:
+        An alphabet containing `base_n` distinct symbols.
+    '''
+
+    # Base 1 is theoretically possible, but a collision isn't. However no non-injective function exists to study.
+    if type(base_n) is not int or base_n < 2:
+        raise ValueError("B must be a positive integer.")
+
+    return list(range(base_n))
